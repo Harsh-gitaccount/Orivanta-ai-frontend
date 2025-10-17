@@ -1,0 +1,54 @@
+# This is a comment. Lines starting with # are ignored.
+
+# Dependencies and Build Artifacts
+# These folders are generated automatically and can be large.
+node_modules/
+dist/
+build/
+out/
+.parcel-cache/
+.cache/
+
+# Ignore the entire backend folder
+/backend/
+
+# Log files
+# These are for debugging and change constantly.
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# System Files
+# These are specific to your operating system and shouldn't be in the project.
+.DS_Store
+Thumbs.db
+
+# Editor and IDE Directories
+# These store your personal editor settings.
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Environment Variables
+# NEVER upload your secret keys or credentials!
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Temporary files and backups
+*.tmp
+*.bak
+*.swp
+
+# Sass/Less cache
+.sass-cache/
+.less-cache/
+
+# Any other sensitive files
+# Example: if you have a file with API keys
+# config.js

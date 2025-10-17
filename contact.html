@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get in touch with Orivanta Labs. Contact us to learn how our AI-powered chatbots and automation solutions can transform your business.">
+    <meta name="theme-color" content="#1e3a8a">
+    
+    <title>Contact Us | Orivanta</title>
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+<!-- Favicon Configuration -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header-placeholder"></header>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <h1 class="page-title">Get in Touch</h1>
+            <p class="page-subtitle">Let's discuss how Orivanta  can automate your conversations and accelerate your business growth</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <h2 class="info-title">Let's Connect</h2>
+                    <p class="info-description">Have questions about our products or want to see a demo? We're here to help</p>
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <img src="assets/icons/email.png" alt="Email" width="24" height="24">
+                            </div>
+                            <div class="method-content">
+                                <h3 class="method-title">Email Us</h3>
+                                <a href="mailto:hello@orivanta.ai" class="method-link">hello@orivanta.ai</a>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <img src="assets/icons/calendar.png" alt="Calendar" width="24" height="24">
+                            </div>
+                            <div class="method-content">
+                                <h3 class="method-title">Book a Demo</h3>
+                                <a href="https://orivanta.zohobookings.in/#/353437000000039052" class="method-link" target="_blank" rel="noopener noreferrer">Schedule a call</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-visual">
+                        <img src="assets/images/contact-illustration.svg" alt="Contact illustration" loading="lazy">
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <form id="contactForm" class="contact-form" novalidate>
+                        <h2 class="form-title">Send us a Message</h2>
+                        
+                        <div class="form-group">
+                            <label for="name" class="form-label">Name <span class="required">*</span></label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                class="form-input" 
+                                placeholder="Your full name"
+                                required
+                                aria-required="true"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email <span class="required">*</span></label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="form-input" 
+                                placeholder="your.email@company.com"
+                                required
+                                aria-required="true"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company" class="form-label">Company Name <span class="required">*</span></label>
+                            <input 
+                                type="text" 
+                                id="company" 
+                                name="company" 
+                                class="form-input" 
+                                placeholder="Your company name"
+                                required
+                                aria-required="true"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes" class="form-label">Message <span class="required">*</span></label>
+                            <textarea 
+                                id="notes" 
+                                name="notes" 
+                                class="form-textarea" 
+                                rows="5" 
+                                placeholder="Tell us about your requirements..."
+                                required
+                                aria-required="true"
+                            ></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-submit">
+                            Send Message
+                        </button>
+
+                        <div id="formMessage" class="form-message" role="alert" aria-live="polite"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Links CTA -->
+       <section class="final-cta" id="cta">
+    <div class="cta-container">
+        <div class="cta-content">
+            <div class="cta-text">
+                <h2 class="cta-title">Cut Costs, Boost Conversions, Drive Growth</h2>
+                <p class="cta-subtitle">Discover how Orivanta can transform your business with AI-powered conversations that work 24/7</p>
+                <div class="cta-buttons">
+                    <a href="https://orivanta.zohobookings.in/#/353437000000039052" class="btn btn-cta-primary">Book a demo</a>
+                    <a href="contact.html" class="btn btn-cta-secondary">Contact Us</a>
+                </div>
+            </div>
+            <div class="cta-visual">
+                <div class="cta-image-wrapper">
+                    <img src="assets/images/cta-person.jpg" alt="Professional using Orivanta" class="cta-image">
+                    <div class="image-glow"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Footer -->
+    <footer id="footer-placeholder"></footer>
+
+    <!-- Scripts -->
+    <script src="shared/utils.js"></script>
+    <script src="contact.js"></script>
+</body>
+</html>
