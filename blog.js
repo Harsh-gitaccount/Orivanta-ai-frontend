@@ -237,11 +237,8 @@ async function submitNewsletterSubscription(email) {
     OrivantaUtils.showLoading(submitButton, 'Subscribing...');
 
     try {
-        // Auto-detect environment (dev vs production)
-        const isDevelopment = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
-        const API_URL = isDevelopment 
-            ? 'https://orivanta-ai-backend.vercel.app/api/newsletter/subscribe' 
-            : 'https://yourdomain.com/api/newsletter/subscribe';
+        // Always use production backend URL
+        const API_URL = 'https://orivanta-backend.vercel.app/api/newsletter/subscribe';
 
         // Call backend API
         const response = await fetch(API_URL, {
