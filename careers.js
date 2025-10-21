@@ -158,7 +158,7 @@ async function handleApplicationSubmit(e) {
     formData.append('jobTitle', form.dataset.jobTitle);
 
     try {
-        const response = await fetch('https://orivanta-backend.vercel.app/api/careers/apply', {
+        const response = await fetch('https://orivanta-ai-backend.vercel.app/api/careers/apply', {
             method: 'POST',
             body: formData,
         });
