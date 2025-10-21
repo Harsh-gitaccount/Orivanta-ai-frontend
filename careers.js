@@ -1,309 +1,237 @@
-// ===================================
-// Careers Page JavaScript
-// ===================================
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Load shared components
     loadSharedComponents();
-
-    // Initialize scroll animations
-    initializeScrollAnimations();
-
-    // Track page view
-    OrivantaUtils.trackPageView('/careers');
+    renderJobOpenings();
+    initializeModal();
+    if (typeof OrivantaUtils !== 'undefined') {
+        OrivantaUtils.trackPageView('/careers');
+    }
 });
 
 // ===================================
-// Load Shared Header and Footer
+// JOB OPENINGS DATABASE
+// ===================================
+
+const jobOpenings = [
+    {
+        title: "Compliance & Operations Intern",
+        location: "Remote (Work from Home)",
+        type: "Internship",
+        description: "Orivanta Labs Private Limited (Orivanta.ai) is a rapidly growing AI automation company building intelligent conversational and business workflow solutions. As we expand our operations, we're looking for a motivated individual to help us streamline and manage compliance and operational documentation. The Compliance & Operations Intern will be responsible for coordinating with third-party legal and compliance service providers (such as VakilSearch), ensuring timely completion of filings, and maintaining all company documentation in an organized, trackable format.",
+        responsibilities: [
+            "Communicate and coordinate daily with external compliance vendors (VakilSearch and others)",
+            "Track the status of pending company filings, registrations, and deliverables",
+            "Maintain a Google Sheet tracker for compliance activities and document updates",
+            "Organize and manage company files in Google Drive (MoA, AoA, GST, ROC, NOC, etc.)",
+            "Prepare short daily and weekly status reports",
+            "Escalate delays or issues in documentation or communication",
+            "Assist in gathering and compiling compliance-related data for future certifications (ISO, DPDP, etc.)"
+        ],
+        qualifications: [
+            "Pursuing or completed B.Com, BBA, or CS (Company Secretary) course",
+            "Basic understanding of company compliance, GST, or documentation processes (preferred)",
+            "Excellent written and verbal communication in English",
+            "Organized, detail-oriented, and proactive in follow-ups",
+            "Comfortable working independently and reporting online daily",
+            "Familiar with Google Workspace (Sheets, Drive, Docs)",
+            "Duration: 3 to 6 Months",
+            "Stipend: ₹1,200–₹2,000 per month",
+            "Time Commitment: 4-6 hours per day"
+        ]
+    }
+    // To add more jobs in the future, copy this entire block and paste below
+];
+
+
+// ===================================
+// RENDER JOBS ON PAGE
+// ===================================
+
+function renderJobOpenings() {
+    const listContainer = document.getElementById('positions-list');
+    const placeholder = document.getElementById('no-positions-placeholder');
+    
+    listContainer.innerHTML = '';
+
+    if (jobOpenings.length === 0) {
+        placeholder.style.display = 'block';
+        return;
+    }
+
+    placeholder.style.display = 'none';
+
+    jobOpenings.forEach(job => {
+        const jobCard = document.createElement('div');
+        jobCard.className = 'position-card';
+        jobCard.innerHTML = `
+            <div class="position-header">
+                <h3>${job.title}</h3>
+                <div class="position-meta">
+                    <span>📍 ${job.location}</span>
+                    <span>🕒 ${job.type}</span>
+                </div>
+            </div>
+            <p class="position-description">${job.description}</p>
+            <div class="position-details">
+                <h4>Key Responsibilities</h4>
+                <ul>
+                    ${job.responsibilities.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+                <h4>Qualifications</h4>
+                <ul>
+                    ${job.qualifications.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+            </div>
+            <div class="position-footer">
+                <button class="btn btn-primary apply-btn" data-job-title="${job.title}">Apply Now</button>
+            </div>
+        `;
+        listContainer.appendChild(jobCard);
+    });
+
+    document.querySelectorAll('.apply-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const jobTitle = button.getAttribute('data-job-title');
+            openApplicationModal(jobTitle);
+        });
+    });
+}
+
+// ===================================
+// MODAL LOGIC
+// ===================================
+
+const modal = document.getElementById('application-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
+const applicationForm = document.getElementById('application-form');
+const jobTitleModal = document.getElementById('job-title-modal');
+const resumeInput = document.getElementById('applicant-resume');
+const resumeFileName = document.getElementById('resume-file-name');
+
+function initializeModal() {
+    closeModalBtn.addEventListener('click', closeApplicationModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeApplicationModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeApplicationModal();
+        }
+    });
+
+    resumeInput.addEventListener('change', () => {
+        resumeFileName.textContent = resumeInput.files[0] ? resumeInput.files[0].name : '';
+    });
+
+    applicationForm.addEventListener('submit', handleApplicationSubmit);
+}
+
+function openApplicationModal(jobTitle) {
+    jobTitleModal.textContent = jobTitle;
+    applicationForm.dataset.jobTitle = jobTitle;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeApplicationModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    applicationForm.reset();
+    resumeFileName.textContent = '';
+    hideFormMessage();
+}
+
+async function handleApplicationSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const submitButton = form.querySelector('.btn-submit');
+    
+   if (!form.elements.name.value || !form.elements.email.value || !resumeInput.files[0]) {
+    showFormMessage('Please fill out your name, email, and upload a resume.', 'error');
+    return;
+}
+
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Submitting...';
+
+    const formData = new FormData(form);
+    formData.append('jobTitle', form.dataset.jobTitle);
+
+    try {
+        const response = await fetch('https://orivanta-backend.vercel.app/api/careers/apply', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || 'Submission failed');
+        }
+
+        showFormMessage('✅ Thank you! Your application has been submitted.', 'success');
+        setTimeout(closeApplicationModal, 3000);
+
+    } catch (error) {
+        console.error('Error:', error);
+        showFormMessage(`Error: ${error.message}`, 'error');
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit Application';
+    }
+}
+
+function showFormMessage(message, type) {
+    const messageEl = document.getElementById('modal-form-message');
+    messageEl.textContent = message;
+    messageEl.className = `form-message ${type}`;
+}
+
+function hideFormMessage() {
+    const messageEl = document.getElementById('modal-form-message');
+    messageEl.className = 'form-message';
+}
+
+// ===================================
+// SHARED COMPONENTS
 // ===================================
 
 function loadSharedComponents() {
-    // Load header
     fetch('shared/header.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('header-placeholder').innerHTML = data;
+        .then(r => r.text())
+        .then(html => {
+            document.getElementById('header-placeholder').innerHTML = html;
             initializeHeader();
             setActiveNavLink();
         })
-        .catch(error => console.error('Error loading header:', error));
+        .catch(err => console.error('Error loading header:', err));
 
-    // Load footer
     fetch('shared/footer.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('footer-placeholder').innerHTML = data;
+        .then(r => r.text())
+        .then(html => {
+            document.getElementById('footer-placeholder').innerHTML = html;
         })
-        .catch(error => console.error('Error loading footer:', error));
+        .catch(err => console.error('Error loading footer:', err));
 }
-
-// ===================================
-// Header Functionality
-// ===================================
 
 function initializeHeader() {
-    const header = document.querySelector('header');
-    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const toggle = document.querySelector('.mobile-menu-toggle');
     const nav = document.querySelector('.nav-menu');
-
-    // Sticky header on scroll
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll > 50) {
-            header?.classList.add('scrolled');
-        } else {
-            header?.classList.remove('scrolled');
-        }
-
-        lastScroll = currentScroll;
-    });
-
-    // Mobile menu toggle
-    mobileMenuToggle?.addEventListener('click', () => {
-        nav?.classList.toggle('active');
-        mobileMenuToggle?.classList.toggle('active');
-        document.body.classList.toggle('menu-open');
-        
-        const isExpanded = nav?.classList.contains('active');
-        mobileMenuToggle?.setAttribute('aria-expanded', isExpanded);
-    });
-
-    // Close mobile menu on link click
-    const navLinks = document.querySelectorAll('.nav-menu a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            nav?.classList.remove('active');
-            mobileMenuToggle?.classList.remove('active');
-            document.body.classList.remove('menu-open');
-            mobileMenuToggle?.setAttribute('aria-expanded', 'false');
+    if (toggle && nav) {
+        toggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            toggle.classList.toggle('active');
         });
-    });
-
-    // Close mobile menu on outside click
-    document.addEventListener('click', (e) => {
-        if (!header?.contains(e.target) && nav?.classList.contains('active')) {
-            nav?.classList.remove('active');
-            mobileMenuToggle?.classList.remove('active');
-            document.body.classList.remove('menu-open');
-            mobileMenuToggle?.setAttribute('aria-expanded', 'false');
-        }
-    });
-
-    // Close menu on escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && nav?.classList.contains('active')) {
-            nav?.classList.remove('active');
-            mobileMenuToggle?.classList.remove('active');
-            document.body.classList.remove('menu-open');
-            mobileMenuToggle?.setAttribute('aria-expanded', 'false');
-        }
-    });
+    }
 }
-
-// ===================================
-// Set Active Navigation Link
-// ===================================
 
 function setActiveNavLink() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPage || linkHref === 'careers.html') {
+    document.querySelectorAll('.nav-link').forEach(link => {
+        if (link.getAttribute('href') === 'careers.html') {
             link.classList.add('active');
-            link.setAttribute('aria-current', 'page');
         }
     });
 }
 
-// ===================================
-// Intersection Observer for Animations
-// ===================================
 
-function initializeScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Observe sections
-    const sections = document.querySelectorAll('section:not(.careers-hero)');
-    sections.forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(section);
-    });
-
-    // Observe benefit cards with stagger effect
-    const benefitCards = document.querySelectorAll('.benefit-card');
-    benefitCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-        observer.observe(card);
-    });
-
-    // Observe position cards (for future use)
-    const positionCards = document.querySelectorAll('.position-card');
-    positionCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        card.style.transition = `opacity 0.6s ease ${index * 0.15}s, transform 0.6s ease ${index * 0.15}s`;
-        observer.observe(card);
-    });
-}
-
-// ===================================
-// CTA Button Tracking
-// ===================================
-
-document.addEventListener('click', (e) => {
-    if (e.target.matches('.btn-primary, .btn-secondary')) {
-        const buttonText = e.target.textContent.trim();
-        const buttonHref = e.target.getAttribute('href');
-        
-        OrivantaUtils.trackEvent('CTA', 'Click', `Careers Page - ${buttonText}`, buttonHref);
-    }
-});
-
-// ===================================
-// Benefit Card Interaction Tracking
-// ===================================
-
-const benefitCards = document.querySelectorAll('.benefit-card');
-benefitCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        const benefitTitle = card.querySelector('.benefit-title')?.textContent;
-        OrivantaUtils.trackEvent('Engagement', 'Hover', `Benefit - ${benefitTitle}`);
-    });
-});
-
-// ===================================
-// Position Card Click Tracking (Future Use)
-// ===================================
-
-function initializePositionTracking() {
-    const positionCards = document.querySelectorAll('.position-card');
-    
-    positionCards.forEach(card => {
-        // Track position view
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const positionTitle = card.querySelector('.position-info h3')?.textContent;
-                    OrivantaUtils.trackEvent('Careers', 'View Position', positionTitle);
-                    observer.unobserve(card);
-                }
-            });
-        }, { threshold: 0.5 });
-        
-        observer.observe(card);
-
-        // Track position click
-        card.addEventListener('click', (e) => {
-            if (!e.target.closest('.btn')) {
-                const positionTitle = card.querySelector('.position-info h3')?.textContent;
-                OrivantaUtils.trackEvent('Careers', 'Click Position', positionTitle);
-            }
-        });
-    });
-}
-
-// Call this when positions are added
-initializePositionTracking();
-
-// ===================================
-// Store Career Interest
-// ===================================
-
-function storeCareerInterest() {
-    const careerInterest = {
-        visited: true,
-        timestamp: new Date().toISOString(),
-        source: document.referrer || 'direct'
-    };
-    
-    OrivantaUtils.setStorage('careerInterest', careerInterest);
-}
-
-storeCareerInterest();
-
-// ===================================
-// Job Alert Signup (Future Use)
-// ===================================
-
-function initializeJobAlertSignup() {
-    const alertForm = document.getElementById('jobAlertForm');
-    
-    if (alertForm) {
-        alertForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const emailInput = alertForm.querySelector('input[type="email"]');
-            const email = emailInput?.value.trim();
-            
-            if (!email || !OrivantaUtils.validateEmail(email)) {
-                OrivantaUtils.showToast('Please enter a valid email address', 'error');
-                return;
-            }
-
-            // Store job alert subscription
-            const subscription = {
-                email: email,
-                timestamp: new Date().toISOString()
-            };
-            
-            OrivantaUtils.setStorage('jobAlertSubscription', subscription);
-            OrivantaUtils.trackEvent('Careers', 'Job Alert Signup', email);
-            
-            OrivantaUtils.showToast('Thank you! We\'ll notify you when positions open up.', 'success');
-            alertForm.reset();
-        });
-    }
-}
-
-initializeJobAlertSignup();
-
-// ===================================
-// Fade-in CSS Class
-// ===================================
-
-const style = document.createElement('style');
-style.textContent = `
-    .fade-in {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-    }
-    
-    .nav-link.active {
-        color: var(--color-primary);
-        background-color: var(--color-gray-100);
-    }
-`;
-document.head.appendChild(style);
-
-// ===================================
-// Performance Monitoring
-// ===================================
-
-if ('performance' in window) {
-    window.addEventListener('load', () => {
-        const perfData = performance.getEntriesByType('navigation')[0];
-        if (perfData) {
-            console.log('Page Load Time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
-        }
-    });
-}

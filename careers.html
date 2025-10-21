@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Join Orivanta Labs - Build the future of conversational AI and automation. Explore career opportunities with our growing team.">
+    <meta name="description" content="Join Orivanta - Build the future of conversational AI and automation. Explore career opportunities with our growing team.">
     <meta name="theme-color" content="#1e3a8a">
     
     <title>Careers | Orivanta</title>
     
-    <!-- Preconnect for performance -->
+    <!-- Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Favicon Configuration -->
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     
     <!-- Stylesheet -->
     <link rel="stylesheet" href="careers.css">
@@ -33,11 +32,11 @@
     <section class="careers-hero">
         <div class="container">
             <h1 class="page-title">Join Our Team</h1>
-            <p class="page-subtitle">Build the future of conversational AI and help businesses communicate smarter, faster, and more efficiently</p>
+            <p class="page-subtitle">Build the future of conversational AI and help businesses communicate smarter, faster, and more efficiently.</p>
         </div>
     </section>
 
-    <!-- Why Join Us -->
+    <!-- Why Join Section -->
     <section class="why-join">
         <div class="container">
             <h2 class="section-title">Why Orivanta?</h2>
@@ -47,31 +46,28 @@
                         <img src="assets/icons/innovation.png" alt="Innovation" loading="lazy">
                     </div>
                     <h3 class="benefit-title">Cutting-Edge Technology</h3>
-                    <p class="benefit-description">Work with the latest AI, NLP, and automation technologies</p>
+                    <p class="benefit-description">Work with the latest AI, NLP, and automation technologies.</p>
                 </div>
-
                 <div class="benefit-card">
                     <div class="benefit-icon">
                         <img src="assets/icons/growth.png" alt="Growth" loading="lazy">
                     </div>
                     <h3 class="benefit-title">Growth Opportunities</h3>
-                    <p class="benefit-description">Develop your skills and advance your career with mentorship and learning</p>
+                    <p class="benefit-description">Develop your skills and advance your career with mentorship and learning.</p>
                 </div>
-
                 <div class="benefit-card">
                     <div class="benefit-icon">
                         <img src="assets/icons/flexibility.png" alt="Flexibility" loading="lazy">
                     </div>
                     <h3 class="benefit-title">Flexible Work</h3>
-                    <p class="benefit-description">Remote-first culture with flexible hours to support work-life balance</p>
+                    <p class="benefit-description">Remote-first culture with flexible hours to support work-life balance.</p>
                 </div>
-
                 <div class="benefit-card">
                     <div class="benefit-icon">
                         <img src="assets/icons/impact.png" alt="Impact" loading="lazy">
                     </div>
                     <h3 class="benefit-title">Real Impact</h3>
-                    <p class="benefit-description">Build products that transform how businesses engage with customers</p>
+                    <p class="benefit-description">Build products that transform how businesses engage with customers.</p>
                 </div>
             </div>
         </div>
@@ -81,34 +77,67 @@
     <section class="open-positions">
         <div class="container">
             <h2 class="section-title">Open Positions</h2>
-            <p class="section-subtitle">We're currently building our team. Check back soon for opportunities or reach out to express your interest</p>
-            
-            <div class="positions-list">
-                <div class="position-placeholder">
-                    <div class="placeholder-icon">
-                        <img src="assets/icons/team.png" alt="Team" loading="lazy">
-                    </div>
-                    <h3 class="placeholder-title">No Open Positions Right Now</h3>
-                    <p class="placeholder-text">We're not actively hiring at the moment, but we're always interested in connecting with talented individuals. Send us your resume and we'll reach out when opportunities arise</p>
-                    <a href="contact.html" class="btn btn-primary">Get in Touch</a>
-                </div>
+            <div id="positions-list" class="positions-list">
+                <!-- Jobs will be rendered here by JavaScript -->
             </div>
-        </div>
-    </section>
-
-    <!-- Join Newsletter -->
-    <section class="career-cta">
-        <div class="container">
-            <h2 class="cta-title">Stay Updated on Career Opportunities</h2>
-            <p class="cta-subtitle">Interested in joining Orivanta? Send us your profile and we'll notify you when positions open up</p>
-            <div class="cta-buttons">
-                <a href="contact.html" class="btn btn-primary">Share Your Profile</a>
+            <!-- Placeholder for when no jobs exist -->
+            <div id="no-positions-placeholder" class="position-placeholder" style="display: none;">
+                <div class="placeholder-icon">
+                    <img src="assets/icons/team.png" alt="Team" loading="lazy">
+                </div>
+                <h3 class="placeholder-title">No Open Positions Right Now</h3>
+                <p class="placeholder-text">We're not actively hiring at the moment, but we're always interested in connecting with talented individuals. Send us your resume and we'll reach out when opportunities arise.</p>
+                <a href="contact.html" class="btn btn-primary">Get in Touch</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer id="footer-placeholder"></footer>
+
+    <!-- Application Modal -->
+    <div id="application-modal" class="modal-overlay">
+        <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <button id="close-modal-btn" class="modal-close-btn" aria-label="Close">&times;</button>
+            <div class="modal-header">
+                <h3 id="modal-title" class="modal-title">Apply for <span id="job-title-modal"></span></h3>
+                <p class="modal-subtitle">Fill out the form below and upload your resume.</p>
+            </div>
+            <div class="modal-body">
+                <form id="application-form" novalidate>
+                    <div class="form-group">
+                        <label for="applicant-name" class="form-label">Full Name *</label>
+                        <input type="text" id="applicant-name" name="name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="applicant-email" class="form-label">Email Address *</label>
+                        <input type="email" id="applicant-email" name="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="applicant-portfolio" class="form-label">Portfolio / LinkedIn URL (Optional)</label>
+
+                        <input type="url" id="applicant-portfolio" name="portfolio" class="form-input" placeholder="https://linkedin.com/in/yourname (Optional)">
+
+                    </div>
+
+                    <div class="form-group">
+    <label for="applicant-message" class="form-label">Additional Information (Optional)</label>
+    <textarea id="applicant-message" name="message" class="form-textarea" rows="4" placeholder="Tell us why you're interested in this role, relevant skills, or anything else you'd like us to know..."></textarea>
+    <small class="field-helper">This is optional but helps us understand your background better.</small>
+</div>
+
+
+                    <div class="form-group">
+                        <label for="applicant-resume" class="form-label">Resume (PDF/DOCX) *</label>
+                        <input type="file" id="applicant-resume" name="resume" class="form-input file-input" accept=".pdf,.doc,.docx" required>
+                        <small id="resume-file-name" class="file-name-display"></small>
+                    </div>
+                    <div id="modal-form-message" class="form-message" role="alert"></div>
+                    <button type="submit" class="btn btn-primary btn-submit">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="shared/utils.js"></script>
