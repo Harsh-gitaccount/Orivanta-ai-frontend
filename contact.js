@@ -273,7 +273,7 @@ async function submitForm(formData) {
 
     try {
         // Send to backend API
-        const response = await fetch('http://localhost:3000/api/contact/submit', {
+        const response = await fetch('https://orivanta-ai-backend.vercel.app/api/contact/submit', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
