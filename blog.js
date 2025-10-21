@@ -238,7 +238,7 @@ async function submitNewsletterSubscription(email) {
 
     try {
         // Always use production backend URL
-        const API_URL = 'https://orivanta-backend.vercel.app/api/newsletter/subscribe';
+        const API_URL = 'https://orivanta-ai-backend.vercel.app/api/newsletter/subscribe';
 
         // Call backend API
         const response = await fetch(API_URL, {
