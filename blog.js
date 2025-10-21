@@ -240,7 +240,7 @@ async function submitNewsletterSubscription(email) {
         // Auto-detect environment (dev vs production)
         const isDevelopment = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
         const API_URL = isDevelopment 
-            ? 'http://localhost:3000/api/newsletter/subscribe' 
+            ? 'https://orivanta-ai-backend.vercel.app/api/newsletter/subscribe' 
             : 'https://yourdomain.com/api/newsletter/subscribe';
 
         // Call backend API
