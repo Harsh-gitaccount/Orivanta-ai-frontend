@@ -128,22 +128,38 @@
     gap: 2rem;
 }
 
+.header-logo {
+    min-width: 180px; /* Reserve space for logo */
+    display: flex;
+    align-items: center;
+}
+
 .header-logo a {
     display: flex;
     align-items: center;
     line-height: 1;
+    width: 100%;
 }
 
 .logo-image {
-    height: 65px;
+    height: 80px; /* Increased size */
     width: auto;
-    max-width: 200px;
+    max-width: 240px; /* Increased max-width */
     filter: none;
     display: block;
+    
+    /* Fix stretching */
+    object-fit: contain;
+    object-position: left center;
+    
+    /* Prevent layout shift */
+    aspect-ratio: 3/1; /* Adjust based on your logo's actual ratio */
+    
+    /* Smooth loading */
+    transition: opacity 0.2s ease;
 }
 
-
-/* Navigation */
+/* Navigation remains the same */
 .nav-menu {
     flex: 1;
     display: flex;
