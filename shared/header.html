@@ -128,38 +128,22 @@
     gap: 2rem;
 }
 
-.header-logo {
-    min-width: 180px; /* Reserve space for logo */
-    display: flex;
-    align-items: center;
-}
-
 .header-logo a {
     display: flex;
     align-items: center;
     line-height: 1;
-    width: 100%;
 }
 
 .logo-image {
-    height: 80px; /* Increased size */
+    height: 68px;
     width: auto;
-    max-width: 240px; /* Increased max-width */
+    max-width: 200px;
     filter: none;
     display: block;
-    
-    /* Fix stretching */
-    object-fit: contain;
-    object-position: left center;
-    
-    /* Prevent layout shift */
-    aspect-ratio: 3/1; /* Adjust based on your logo's actual ratio */
-    
-    /* Smooth loading */
-    transition: opacity 0.2s ease;
 }
 
-/* Navigation remains the same */
+
+/* Navigation */
 .nav-menu {
     flex: 1;
     display: flex;
@@ -370,19 +354,3 @@
     outline-offset: 2px;
 }
 </style>
-<script>// Add to your existing JavaScript
-document.addEventListener('DOMContentLoaded', function() {
-    const logoImage = document.querySelector('.logo-image');
-    
-    if (logoImage) {
-        logoImage.addEventListener('load', function() {
-            this.classList.add('loaded');
-        });
-        
-        // If image is already loaded (from cache)
-        if (logoImage.complete) {
-            logoImage.classList.add('loaded');
-        }
-    }
-});
-</script>
